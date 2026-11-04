@@ -28,6 +28,8 @@
   .big { font-size: 1.4rem; font-weight: 800; }
   button {width: 100%; margin-top: 18px; padding:12px;font-size:1rem; font-weight: 700; color: #F7F4EC; background: #14342B; border: 0; border-radius: 8px; 
           cursor: pointer;}
+  .check { display: flex; align-items: center; gap: 8px; font-weight: 400; }
+.check input { width: auto; }
 </style>
 </head>
 
@@ -43,7 +45,7 @@
   <input id="tipPercent" type="number" min="0" value="15">
 
   <label for="people">Number of people</label>
-  <input id="people" type="number" min="1" value="1">
+  <input id="people" type="number" min="1" value="1"> <label class="check"><input id="roundUp" type="checkbox"> Round total up to a whole number</label>
 
   <div class="results">
     <div class="line"><span>Tip</span><span id="tipAmount">0.00</span></div>
@@ -58,14 +60,21 @@
   const billInput = document.getElementById("bill");
   const tipInput = document.getElementById("tipPercent");
   const peopleInput = document.getElementById("people");
+  const roundUpBox = document.getElementById("roundUp");
 
   function calculate() {
     const bill = Number(billInput.value);
     const tipPercent = Number(tipInput.value);
     const people = Math.max(1, Number(peopleInput.value));
 
-    const tip = bill * tipPercent / 100;
-    const total = bill + tip;
+    let tip = bill * tipPercent / 100;
+    let total = bill + tip;
+
+    if (roundUpBox.checked) {
+      total = Math.ceil(total - 0.001); // round up to the next whole number
+      tip = total - bill;               // the extra goes into the tip
+    }
+
     const each = total / people;
 
     document.getElementById("tipAmount").textContent = tip.toFixed(2);
@@ -77,12 +86,14 @@
     billInput.value = "";
     tipInput.value = 15;
     peopleInput.value = 1;
+    roundUpBox.checked = false;
     calculate();
   }
 
   billInput.addEventListener("input", calculate);
   tipInput.addEventListener("input", calculate);
   peopleInput.addEventListener("input", calculate);
+  roundUpBox.addEventListener("change", calculate);
   document.getElementById("reset").addEventListener("click", resetAll);
 </script>
 </body>
