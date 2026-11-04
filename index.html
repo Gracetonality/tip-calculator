@@ -21,6 +21,8 @@
   .results { margin-top: 22px; padding-top: 14px; border-top: 2px solid #C9C4B5; }
   .line { display: flex; justify-content: space-between; padding: 6px 0; }
   .big { font-size: 1.4rem; font-weight: 800; }
+  button {width: 100%; margin-top: 18px; padding:12px;font-size:1rem; font-weight: 700; color: #F7F4EC; background: #14342B; border: 0; border-radius: 8px; 
+          cursor: pointer;}
 </style>
 </head>
 
@@ -43,6 +45,7 @@
     <div class="line"><span>Total</span><span id="total">0.00</span></div>
     <div class="line big"><span>Each person pays</span><span id="perPerson">0.00</span></div>
   </div>
+  <button id="reset">Reset</button>
 </div>
 
 <!-- JavaScript: the logic. It reads the inputs, does the math, and shows the answers. -->
@@ -72,6 +75,12 @@
   billInput.addEventListener("input", calculate);
   tipInput.addEventListener("input", calculate);
   peopleInput.addEventListener("input", calculate);
+  function resetAll() { 
+    billInput.value = "";
+    tipInput.value = 15;
+    peopleInput.value = 1;
+    calculate(); //run the math again so the results go back to 0.00}
+    document.getElementById("reset").addEventListener("click", resetAll);
 </script>
 </body>
 </html>
