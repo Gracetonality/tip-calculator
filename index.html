@@ -50,37 +50,35 @@
 
 <!-- JavaScript: the logic. It reads the inputs, does the math, and shows the answers. -->
 <script>
-  // Find the page elements by their id and give them names we can use.
   const billInput = document.getElementById("bill");
   const tipInput = document.getElementById("tipPercent");
   const peopleInput = document.getElementById("people");
 
-  // This is a "recipe" (function). It runs every time something changes.
   function calculate() {
-    const bill = Number(billInput.value);            // turn the typed text into a number
+    const bill = Number(billInput.value);
     const tipPercent = Number(tipInput.value);
-    const people = Math.max(1, Number(peopleInput.value)); // never fewer than 1 person
+    const people = Math.max(1, Number(peopleInput.value));
 
-    const tip = bill * tipPercent / 100;             // the math
+    const tip = bill * tipPercent / 100;
     const total = bill + tip;
     const each = total / people;
 
-    // Show the answers on the page, rounded to 2 decimal places.
     document.getElementById("tipAmount").textContent = tip.toFixed(2);
     document.getElementById("total").textContent = total.toFixed(2);
     document.getElementById("perPerson").textContent = each.toFixed(2);
   }
 
-  // "Listen" for typing in each box. When it happens, run calculate().
-  billInput.addEventListener("input", calculate);
-  tipInput.addEventListener("input", calculate);
-  peopleInput.addEventListener("input", calculate);
-  function resetAll() { 
+  function resetAll() {
     billInput.value = "";
     tipInput.value = 15;
     peopleInput.value = 1;
-    calculate(); //run the math again so the results go back to 0.00}
-    document.getElementById("reset").addEventListener("click", resetAll);
+    calculate();
+  }
+
+  billInput.addEventListener("input", calculate);
+  tipInput.addEventListener("input", calculate);
+  peopleInput.addEventListener("input", calculate);
+  document.getElementById("reset").addEventListener("click", resetAll);
 </script>
 </body>
 </html>
