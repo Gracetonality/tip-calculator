@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tip Calculator</title>
+
+<!-- CSS: the look of the page. Change a color here and refresh to see it. -->
+<style>
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    background:  #2B1B3D; font-family: system-ui, sans-serif; color: #14342B;
+  }
+  .card { background: #f2f0f4; width: min(360px, 92vw); padding: 24px; border-radius: 16px; }
+  h1 { margin: 0 0 18px; font-size: 1.5rem; }
+  label { display: block; margin: 14px 0 6px; font-weight: 600; }
+  input {
+    width: 100%; padding: 10px; font-size: 1.1rem;
+    border: 2px solid #C9C4B5; border-radius: 8px; background: #fff;
+  }
+  .results { margin-top: 22px; padding-top: 14px; border-top: 2px solid #C9C4B5; }
+  .line { display: flex; justify-content: space-between; padding: 6px 0; }
+  .big { font-size: 1.4rem; font-weight: 800; }
+</style>
+</head>
+
+<body>
+<!-- HTML: the parts you see on the page. Each input has an id so JavaScript can find it. -->
+<div class="card">
+  <h1>Tip Calculator</h1>
+
+  <label for="bill">Bill amount</label>
+  <input id="bill" type="number" min="0" step="0.01" placeholder="0.00">
+
+  <label for="tipPercent">Tip percent</label>
+  <input id="tipPercent" type="number" min="0" value="15">
+
+  <label for="people">Number of people</label>
+  <input id="people" type="number" min="1" value="1">
+
+  <div class="results">
+    <div class="line"><span>Tip</span><span id="tipAmount">0.00</span></div>
+    <div class="line"><span>Total</span><span id="total">0.00</span></div>
+    <div class="line big"><span>Each person pays</span><span id="perPerson">0.00</span></div>
+  </div>
+</div>
+
+<!-- JavaScript: the logic. It reads the inputs, does the math, and shows the answers. -->
+<script>
+  // Find the page elements by their id and give them names we can use.
+  const billInput = document.getElementById("bill");
+  const tipInput = document.getElementById("tipPercent");
+  const peopleInput = document.getElementById("people");
+
+  // This is a "recipe" (function). It runs every time something changes.
+  function calculate() {
+    const bill = Number(billInput.value);            // turn the typed text into a number
+    const tipPercent = Number(tipInput.value);
+    const people = Math.max(1, Number(peopleInput.value)); // never fewer than 1 person
+
+    const tip = bill * tipPercent / 100;             // the math
+    const total = bill + tip;
+    const each = total / people;
+
+    // Show the answers on the page, rounded to 2 decimal places.
+    document.getElementById("tipAmount").textContent = tip.toFixed(2);
+    document.getElementById("total").textContent = total.toFixed(2);
+    document.getElementById("perPerson").textContent = each.toFixed(2);
+  }
+
+  // "Listen" for typing in each box. When it happens, run calculate().
+  billInput.addEventListener("input", calculate);
+  tipInput.addEventListener("input", calculate);
+  peopleInput.addEventListener("input", calculate);
+</script>
+</body>
+</html>
